@@ -35,45 +35,30 @@ inquire.prompt([
 ]).then(function (answ) {
     connection.connect(function (err) {
         if (err) throw err;
-        console.log("connected to Bamazon \n");
+        // check if items are in stock
         itemCheck(answ.id, answ.amount);
-        connection.end();
     });
-    // if id exists and quantity > requested amount
-    // adjust db and console.log cost
-    // else{
-    // console.log("Order cannot be completed- insufficient quantity!");
-    // }
 });
-
-// function readProducts() {
-//     console.log("Selecting all products...\n");
-//     connection.query("SELECT * FROM products", function(err, res) {
-//       if (err) throw err;
-//       // Log all results of the SELECT statement
-//       console.log(res);
-//       connection.end();
-//     });
-//   }
 
 // looks up item's id and checks if quantity > requested amount
 itemCheck = function (id, amount) {
     connection.query(
+        // selects quantity data from column with correct id
         "SELECT stock_quantity FROM products WHERE ?",
         {
             item_id: id,
         },
         function (err, res) {
-            console.log(res[0].stock_quantity);
             if (err) {
                 throw err
             };
             // if amount stocked is greater or equal to amount requested
-            if (res[0].stock_quantity > amount) {
+            if (res[0].stock_quantity >= amount) {
                 // run function for order successfully fulfilled
                 orderFulfilled(id, amount);
             } else {
                 console.log("Order cannot be completed- insufficient quantity!");
+                connection.end();
             }
         }
     )
@@ -81,7 +66,41 @@ itemCheck = function (id, amount) {
 
 // adjusts db, calc and log cost
 orderFulfilled = function (id, amount) {
-    console.log("You purchased "+amount+" items with id "+id+"!");
+    connection.query(
+        // selects quantity data from column with correct id
+        "SELECT product_name, price, stock_quantity FROM products WHERE ?",
+        {
+            item_id: id,
+        },
+        function (err, res) {
+            if (err) {
+                throw err
+            };
+            let totalCost = res[0].price * amount;
+            let adjustedAmt = res[0].stock_quantity - amount;
+            console.log(`Order Placed! You bought ${amount} ${res[0].product_name} for ${totalCost} dollars!`);
+            inventoryAdjust(id, adjustedAmt);
+        }
+    )
 };
 
+inventoryAdjust = function (id, amount) {
+    connection.query(
+        "UPDATE products SET ? WHERE ?",
+        [
+            {
+                stock_quantity: amount
+            },
+            {
+                item_id: id
+            }
+        ],
+        function (err, res) {
+            if (err) {
+                throw err
+            };
+            connection.end();
+        }
+    )
+};
 
