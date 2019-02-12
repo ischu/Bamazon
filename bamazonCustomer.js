@@ -13,12 +13,28 @@ inquire.prompt([
     {
         name: "id",
         type: "input",
-        message: "Enter id of item you wish to purchase"
+        message: "Enter id of item you wish to purchase",
+        // check if input is an integer
+        validate: function (value) {
+            if (!isNaN(parseInt(value))) {
+                return true
+            } else {
+                return "amount to add must be an integer";
+            }
+        }
     },
     {
         name: "amount",
         type: "input",
-        message: "How many items do you wish to purchase?"
+        message: "How many items do you wish to purchase?",
+        // check if input is an integer
+        validate: function (value) {
+            if (!isNaN(parseInt(value))) {
+                return true
+            } else {
+                return "amount to add must be an integer";
+            }
+        }
     }
 ]).then(function (answ) {
     connection.connect(function (err) {
@@ -29,7 +45,7 @@ inquire.prompt([
 });
 
 // looks up item's id and checks if quantity > requested amount
-function itemCheck (id, amount) {
+function itemCheck(id, amount) {
     connection.query(
         // selects quantity data from column with correct id
         "SELECT stock_quantity FROM products WHERE ?",
@@ -53,7 +69,7 @@ function itemCheck (id, amount) {
 };
 
 // adjusts db, calc and log cost
-function orderFulfilled (id, amount) {
+function orderFulfilled(id, amount) {
     connection.query(
         // selects quantity data from column with correct id
         "SELECT product_name, price, stock_quantity FROM products WHERE ?",
@@ -72,7 +88,7 @@ function orderFulfilled (id, amount) {
     )
 };
 
-function inventoryAdjust (id, amount) {
+function inventoryAdjust(id, amount) {
     connection.query(
         "UPDATE products SET ? WHERE ?",
         [
