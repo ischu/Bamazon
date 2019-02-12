@@ -1,8 +1,3 @@
-// * If a manager selects `Add to Inventory`, your app should 
-// display a prompt that will let the manager "add more" of any item currently in the store.
-// * If a manager selects `Add New Product`, it should 
-// allow the manager to add a completely new product to the store.
-
 var mysql = require("mysql");
 var inquire = require("inquirer");
 
@@ -48,12 +43,28 @@ inquire.prompt(
                 {
                     name: "price",
                     type: "input",
-                    message: "Enter the unit price"
+                    message: "Enter the unit price",
+                    // check if input is an integer
+                    validate: function (value) {
+                        if (!isNaN(parseInt(value))) {
+                            return true
+                        } else {
+                            return "amount to add must be an integer";
+                        }
+                    }
                 },
                 {
                     name: "quant",
                     type: "input",
-                    message: "Enter the quantity to stock"
+                    message: "Enter the quantity to stock",
+                    // check if input is an integer
+                    validate: function (value) {
+                        if (!isNaN(parseInt(value))) {
+                            return true
+                        } else {
+                            return "amount to add must be an integer";
+                        }
+                    }
                 }
             ]).then(function (ans) {
                 addProduct(ans.product, ans.dept, ans.price, ans.quant);
@@ -152,10 +163,10 @@ function addProduct(product, dept, price, quant) {
     connection.query(
         `INSERT INTO products SET ?`,
         {
-            product_name: product ,
-            department_name: dept ,
-            price: price ,
-            stock_quantity: quant 
+            product_name: product,
+            department_name: dept,
+            price: price,
+            stock_quantity: quant
         },
         function (err, res) {
             if (err) {
