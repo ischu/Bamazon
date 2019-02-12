@@ -1,8 +1,3 @@
-
-// * If a manager selects `View Products for Sale`, the app should list every available item:
-// the item IDs, names, prices, and quantities.
-// * If a manager selects `View Low Inventory`, then it should 
-// list all items with an inventory count lower than five.
 // * If a manager selects `Add to Inventory`, your app should 
 // display a prompt that will let the manager "add more" of any item currently in the store.
 // * If a manager selects `Add New Product`, it should 
@@ -18,7 +13,6 @@ var connection = mysql.createConnection({
     password: "tara1",
     database: "bamazon"
 });
-
 inquire.prompt(
     {
         name: "action",
@@ -40,11 +34,35 @@ inquire.prompt(
             addInventory();
             break;
         case "Add New Product":
-            addProduct();
+            inquire.prompt([
+                {
+                    name: "product",
+                    type: "input",
+                    message: "Enter the name of the product"
+                },
+                {
+                    name: "dept",
+                    type: "input",
+                    message: "Enter the department name"
+                },
+                {
+                    name: "price",
+                    type: "input",
+                    message: "Enter the unit price"
+                },
+                {
+                    name: "quant",
+                    type: "input",
+                    message: "Enter the quantity to stock"
+                }
+            ]).then(function (ans) {
+                addProduct(ans.product, ans.dept, ans.price, ans.quant);
+            })
             break;
     }
 
 });
+//function to log item info- used by showAllProduct and showLowInventory
 function showProducts(res) {
     for (i = 0; i < res.length; i++) {
         console.log(
@@ -71,17 +89,79 @@ function showAllProducts() {
 function showLowInventory() {
     connection.query(
         "SELECT * FROM products WHERE stock_quantity<?",
+        // change this number to change definition of "low" stock
         5,
         function (err, res) {
             if (err) {
                 throw err
             };
+            // check if any products are low
             if (res.length > 0) {
                 showProducts(res);
-            } else{
+            } else {
                 console.log("No products are understocked at this time!")
             }
         }
     )
     connection.end()
 };
+
+function addInventory() {
+    inquire.prompt([
+        {
+            name: "id",
+            type: "input",
+            message: "Enter the id of the item to add stock",
+            // check if input is an integer
+            validate: function (value) {
+                if (!isNaN(parseInt(value))) {
+                    return true
+                } else {
+                    return "amount to add must be an integer";
+                }
+            }
+        },
+        {
+            name: "addition",
+            type: "input",
+            message: "Enter the amount to be added",
+            // check if input is an integer
+            validate: function (value) {
+                if (!isNaN(parseInt(value))) {
+                    return true
+                } else {
+                    return "amount to add must be an integer";
+                }
+            }
+        }
+    ]).then(function (ans) {
+        connection.query(
+            `UPDATE products SET stock_quantity = stock_quantity + ${ans.addition} WHERE ?`,
+            { item_id: parseInt(ans.id) },
+            function (err, res) {
+                if (err) {
+                    throw err
+                };
+                console.log(`Added ${ans.addition} to product #${ans.id} stock`);
+            }
+        )
+        connection.end();
+    });
+};
+function addProduct(product, dept, price, quant) {
+    connection.query(
+        `INSERT INTO products SET ?`,
+        {
+            product_name: product ,
+            department_name: dept ,
+            price: price ,
+            stock_quantity: quant 
+        },
+        function (err, res) {
+            if (err) {
+                throw err
+            }
+        }
+    )
+    connection.end();
+}
