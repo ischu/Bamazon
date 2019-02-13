@@ -51,7 +51,7 @@ The manager if offered a menu of four possible commands:
 
 ![](images/Manager_Add_New_Products_Done.png)
 
-##bamazonSupervisor.js
+## bamazonSupervisor.js
 
 Simulates a supervisor view of bamazon corp, allowing an overview of different departments and total profits
 
