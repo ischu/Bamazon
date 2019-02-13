@@ -31,11 +31,11 @@ The manager if offered a menu of four possible commands:
 
 1. Show All Products- lists info for all products in store
 
-![](images/Manger_All_Products.png)
+![](images/Manager_All_Products.png)
 
 2. Show Low Inventory- lists info for all products with inventory under 5
 
-![](images/Manger_Show_Inventory_True.png)
+![](images/Manager_Show_Inventory_True.png)
 
 *If all inventory is above 5, display message*
 
