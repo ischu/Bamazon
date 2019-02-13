@@ -30,9 +30,9 @@ The manager if offered a menu of four possible commands:
 ![](images/Manager_Commands.png)
 
 1. Show All Products
-lists info for all products in store
+\t lists info for all products in store
 
-![](images/Manger_All_Products.png)
+\t ![](images/Manger_All_Products.png)
 
 2. Show Low Inventory
 lists info for all products with inventory under 5
