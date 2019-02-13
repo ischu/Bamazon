@@ -2,18 +2,18 @@
 
 CLI storefront with mySQL database.
 
-##Overview
+## Overview
 
 Bamazon simulates an online sotrefront experience via the command line. 
 It contains three node apps: 
 
-    *bamazonCustomer*
+    * bamazonCustomer *
     
-    *bamazonManager*
+    * bamazonManager *
     
-    *bamazonSupervisor*
+    * bamazonSupervisor *
 
-##bamazonCustomer.js
+## bamazonCustomer.js
 
 Simulates a simple store interface with the user playing the part of customer. 
 The customer is given two prompts, which allow them to select the product and quantity they wish to purchase.
@@ -22,7 +22,7 @@ The customer is given two prompts, which allow them to select the product and qu
 
 The app adjusts the inventory in the linked mysql table, and displays the purchase price for the customer.
 
-##bamazonManager.js
+## bamazonManager.js
 
 Simulates a manager login for an online store. 
 The manager if offered a menu of four possible commands:
