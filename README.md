@@ -6,9 +6,12 @@ CLI storefront with mySQL database.
 
 Bamazon simulates an online sotrefront experience via the command line. 
 It contains three node apps: 
-    *bamazonCustomer
-    *bamazonManager
-    *bamazonSupervisor
+
+    *bamazonCustomer*
+    
+    *bamazonManager*
+    
+    *bamazonSupervisor*
 
 ##bamazonCustomer.js
 
@@ -36,7 +39,7 @@ lists info for all products with inventory under 5
 
 ![](images/Manger_Show_Inventory_True.png)
 
-*If all inventory is above 5, display message
+*If all inventory is above 5, display message*
 
 ![](images/Manager_Show_Inventory_False.png)
 
