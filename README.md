@@ -29,13 +29,11 @@ The manager if offered a menu of four possible commands:
 
 ![](images/Manager_Commands.png)
 
-1. Show All Products
-   lists info for all products in store
+1. Show All Products- lists info for all products in store
 
-   ![](images/Manger_All_Products.png)
+![](images/Manger_All_Products.png)
 
-2. Show Low Inventory
-lists info for all products with inventory under 5
+2. Show Low Inventory- lists info for all products with inventory under 5
 
 ![](images/Manger_Show_Inventory_True.png)
 
@@ -43,13 +41,11 @@ lists info for all products with inventory under 5
 
 ![](images/Manager_Show_Inventory_False.png)
 
-3. Add Inventory
-Allows manager to chose item to add stock too, and to chose amount of stock to add
+3. Add Inventory- Allows manager to chose item to add stock too, and to chose amount of stock to add
 
 ![](images/Manager_Add_Inventory.png)
 
-4. Add New Product
-Allows manager to add new product to the store by answering a series of prompts
+4. Add New Product- Allows manager to add new product to the store by answering a series of prompts
 
 ![](images/Manager_Add_New_Products.png)
 
